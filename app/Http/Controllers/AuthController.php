@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Jobs\EmailSendJob;
 use App\Mail\SendEmailNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ class AuthController extends Controller
             'verification_token' => Str::random(32),
             'password'  => Hash::make($request->password)
         ]);
-        Mail::to($user->email)->send(new SendEmailNotification($user));
+        EmailSendJob::dispatch($user);
         return response()->json([
             'message' => 'Send email verification',
         ]);
