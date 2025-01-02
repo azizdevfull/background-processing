@@ -34,7 +34,7 @@ class SendEmailNotification extends Mailable
      */
     public function content(): Content
     {
-        $link = route('verify') . '?token=' . $this->user->verification_token;
+        $link = 'http://127.0.0.1:8000/api/email-verify?token=' . $this->user->verification_token;
         return new Content(
             view: 'emails.verify',
             with: [
